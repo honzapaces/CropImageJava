@@ -17,7 +17,8 @@ public class ImageTrimmer {
 
         BufferedImage image = loadImageFromFile(resourceFileName);
 
-        Rectangle croppingRectangle = getCroppingRectangle(image);
+        int[][] pixelArray = image2PixelArray(image);
+        Rectangle croppingRectangle = getCroppingRectangle(pixelArray);
 
         return image.getSubimage(croppingRectangle.x, croppingRectangle.y, croppingRectangle.width, croppingRectangle.height);
     }
@@ -25,11 +26,28 @@ public class ImageTrimmer {
     /**
      * TODO: Fill in this method
      *
-     * @param image image represented by java class {@link BufferedImage}
+     * @param pixelArray two-dimensional array representation of the image [x][y] - each pixel is represented as a integer
      * @return {@link Rectangle} object that specifies how the image should be cropped
      */
-    private Rectangle getCroppingRectangle(BufferedImage image) {
+    private Rectangle getCroppingRectangle(int[][] pixelArray) {
         return new Rectangle();
+    }
+
+    private int[][] image2PixelArray(BufferedImage image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        int[][] pixelArray = new int[width][height];
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int rgb = image.getRGB(x, y);
+                Color color = new Color(rgb);
+                pixelArray[x][y] = rgb;
+            }
+        }
+
+        return pixelArray;
     }
 
     private BufferedImage loadImageFromFile(String path) {
